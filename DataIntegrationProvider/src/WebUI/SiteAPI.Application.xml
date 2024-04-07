@@ -1,0 +1,148 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>DataIntegrationProvider.Application</name>
+    </assembly>
+    <members>
+        <member name="T:DataIntegrationProvider.Application.Common.Security.AuthorizeAttribute">
+            <summary>
+            Specifies the class this attribute is applied to requires authorization.
+            </summary>
+        </member>
+        <member name="M:DataIntegrationProvider.Application.Common.Security.AuthorizeAttribute.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:DataIntegrationProvider.Application.Common.Security.AuthorizeAttribute"/> class. 
+            </summary>
+        </member>
+        <member name="P:DataIntegrationProvider.Application.Common.Security.AuthorizeAttribute.Roles">
+            <summary>
+            Gets or sets a comma delimited list of roles that are allowed to access the resource.
+            </summary>
+        </member>
+        <member name="P:DataIntegrationProvider.Application.Common.Security.AuthorizeAttribute.Policy">
+            <summary>
+            Gets or sets the policy name that determines access to the resource.
+            </summary>
+        </member>
+        <member name="P:DataIntegrationProvider.Application.ContextMaps.Contents.Commands.Calculator.OptionMargin.CalculateOptionMarginCommand.CallPutType">
+            <summary>
+            نوع قرارداد
+            </summary>
+        </member>
+        <member name="P:DataIntegrationProvider.Application.ContextMaps.Contents.Commands.Calculator.OptionMargin.CalculateOptionMarginCommand.Strike">
+            <summary>
+            قیمت اعمال
+            </summary>
+        </member>
+        <member name="P:DataIntegrationProvider.Application.ContextMaps.Contents.Commands.Calculator.OptionMargin.CalculateOptionMarginCommand.ContractSize">
+            <summary>
+            اندازه قرارداد
+            </summary>
+        </member>
+        <member name="P:DataIntegrationProvider.Application.ContextMaps.Contents.Commands.Calculator.OptionMargin.CalculateOptionMarginCommand.BaseAsset">
+            <summary>
+            قیمت دارایی پایه
+            </summary>
+        </member>
+        <member name="P:DataIntegrationProvider.Application.ContextMaps.Contents.Commands.Calculator.OptionMargin.CalculateOptionMarginCommand.ContractSalesPrice">
+            <summary>
+            قیمت فروش قرارداد
+            </summary>
+        </member>
+        <member name="P:DataIntegrationProvider.Application.ContextMaps.Contents.Commands.Calculator.OptionMargin.CalculateOptionMarginCommand.Coefficient_A">
+            <summary>
+            ضریب A
+            </summary>
+        </member>
+        <member name="P:DataIntegrationProvider.Application.ContextMaps.Contents.Commands.Calculator.OptionMargin.CalculateOptionMarginCommand.Coefficient_B">
+            <summary>
+            ضریب B
+            </summary>
+        </member>
+        <member name="P:DataIntegrationProvider.Application.ContextMaps.Contents.Commands.Calculator.OptionMargin.CalculateOptionMarginCommand.Coefficient_Rounding">
+            <summary>
+            ضریب گردکردن
+            </summary>
+        </member>
+        <member name="P:DataIntegrationProvider.Application.ContextMaps.Contents.Commands.Calculator.OptionValuation.CalculateOptionValuationCommand.CallPutType">
+            <summary>
+            نوع قرارداد
+            </summary>
+        </member>
+        <member name="P:DataIntegrationProvider.Application.ContextMaps.Contents.Commands.Calculator.OptionValuation.CalculateOptionValuationCommand.BaseAsset">
+            <summary>
+            قیمت دارایی پایه
+            </summary>
+        </member>
+        <member name="P:DataIntegrationProvider.Application.ContextMaps.Contents.Commands.Calculator.OptionValuation.CalculateOptionValuationCommand.Strike">
+            <summary>
+            قیمت اعمال
+            </summary>
+        </member>
+        <member name="P:DataIntegrationProvider.Application.ContextMaps.Contents.Commands.Calculator.OptionValuation.CalculateOptionValuationCommand.RiskFree">
+            <summary>
+            نرخ بازدهی مورد انتظار
+            </summary>
+        </member>
+        <member name="P:DataIntegrationProvider.Application.ContextMaps.Contents.Commands.Calculator.OptionValuation.CalculateOptionValuationCommand.ProfitDividedAsset">
+            <summary>
+            نسبت سود نقدی به قیمت دارایی پایه
+            </summary>
+        </member>
+        <member name="P:DataIntegrationProvider.Application.ContextMaps.Contents.Commands.Calculator.OptionValuation.CalculateOptionValuationCommand.RemainedDueDays">
+            <summary>
+            زمان باقی مانده تا سررسید
+            </summary>
+        </member>
+        <member name="P:DataIntegrationProvider.Application.ContextMaps.Contents.Commands.Calculator.OptionValuation.CalculateOptionValuationCommand.Volatility">
+            <summary>
+            نوسان پذیری
+            </summary>
+        </member>
+        <member name="P:DataIntegrationProvider.Application.ContextMaps.Contents.Commands.Calculator.OptionValuation.CalculateOptionValuationCommand.Sigma">
+            <summary>
+            مقدار اولیه نوسان پذیری
+            </summary>
+        </member>
+        <member name="P:DataIntegrationProvider.Application.ContextMaps.Contents.Commands.Calculator.OptionValuation.CalculateOptionValuationCommand.OptionContractValue">
+            <summary>
+            ارزش قرارداد اختیار معامله
+            </summary>
+        </member>
+        <member name="P:DataIntegrationProvider.Application.ContextMaps.Contents.Commands.Calculator.OptionValuation.OptionValuationResponse.BSE">
+            <summary>
+            ارزش قرارداد اختیار معامله
+            </summary>
+        </member>
+        <member name="P:DataIntegrationProvider.Application.ContextMaps.Contents.Commands.Calculator.OptionValuation.OptionValuationResponse.IV">
+            <summary>
+            نوسان پذیری ضمنی
+            </summary>
+        </member>
+        <member name="P:DataIntegrationProvider.Application.ContextMaps.Contents.Commands.Calculator.OptionValuation.OptionValuationResponse.Delta">
+            <summary>
+            دلتا
+            </summary>
+        </member>
+        <member name="P:DataIntegrationProvider.Application.ContextMaps.Contents.Commands.Calculator.OptionValuation.OptionValuationResponse.Theta">
+            <summary>
+            تتا
+            </summary>
+        </member>
+        <member name="P:DataIntegrationProvider.Application.ContextMaps.Contents.Commands.Calculator.OptionValuation.OptionValuationResponse.RHO">
+            <summary>
+            رو
+            </summary>
+        </member>
+        <member name="P:DataIntegrationProvider.Application.ContextMaps.Contents.Commands.Calculator.OptionValuation.OptionValuationResponse.Gamma">
+            <summary>
+            گاما
+            </summary>
+        </member>
+        <member name="P:DataIntegrationProvider.Application.ContextMaps.Contents.Commands.Calculator.OptionValuation.OptionValuationResponse.Vega">
+            <summary>
+            وگا
+            </summary>
+        </member>
+    </members>
+</doc>

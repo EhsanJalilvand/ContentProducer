@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <RootNamespace>EnigmaDataProvider.Infrastructure</RootNamespace>
+    <AssemblyName>EnigmaDataProvider.Infrastructure</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="EFCore.BulkExtensions" Version="5.0.9" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="6.0.22" />
+    <PackageReference Include="RestSharp" Version="107.1.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Share\src\Domain\Share.Domain.csproj" />
+    <ProjectReference Include="..\Application\DataIntegrationProvider.Application.csproj" />
+    <ProjectReference Include="..\Domain\DataIntegrationProvider.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

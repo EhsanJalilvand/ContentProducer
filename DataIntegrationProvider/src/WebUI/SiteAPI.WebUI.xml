@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>DataIntegrationProvider.WebUI</name>
+    </assembly>
+    <members>
+        <member name="M:DataIntegrationProvider.WebUI.Controllers.CalculatorController.CalculateYTMCommand(DataIntegrationProvider.Application.ContextMaps.Contents.Commands.Calculator.YTM.CalculateYTMCommand)">
+            <summary>
+            ماشین حساب YTM
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:DataIntegrationProvider.WebUI.Controllers.CalculatorController.CalculateOptionValuation(DataIntegrationProvider.Application.ContextMaps.Contents.Commands.Calculator.OptionValuation.CalculateOptionValuationCommand)">
+            <summary>
+            ماشین حساب اختیار
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:DataIntegrationProvider.WebUI.Controllers.CalculatorController.CalculateOptionMargin(DataIntegrationProvider.Application.ContextMaps.Contents.Commands.Calculator.OptionMargin.CalculateOptionMarginCommand)">
+            <summary>
+            ماشین حساب تضمین اختیار
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:DataIntegrationProvider.WebUI.Controllers.CodalController.IncomeStatement(DataIntegrationProvider.Application.ContextMaps.Contents.Queries.Codal.Instrument.IncomeStatementQuery)">
+            <summary>
+            صورت های سود و زیان
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:DataIntegrationProvider.WebUI.Controllers.CodalController.InvitatStatement(DataIntegrationProvider.Application.ContextMaps.Contents.Queries.Codal.Instrument.InvitatStatementQuery)">
+            <summary>
+            آگهی دعوت به مجمع
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:DataIntegrationProvider.WebUI.Controllers.CodalController.PublisherInfo(DataIntegrationProvider.Application.ContextMaps.Contents.Queries.Codal.Instrument.PublisherInfoQuery)">
+            <summary>
+            اطلاعات تماس
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="T:DataIntegrationProvider.WebUI.MimeTypes">
+            <summary>
+            Provides utilities for mapping file names and extensions to MIME-types.
+            </summary>
+        </member>
+        <member name="P:DataIntegrationProvider.WebUI.MimeTypes.FallbackMimeType">
+            <summary>
+            The fallback MIME-type. Defaults to <c>application/octet-stream</c>.
+            </summary>
+        </member>
+        <member name="M:DataIntegrationProvider.WebUI.MimeTypes.GetMimeTypeExtensions(System.String)">
+            <summary>
+            Attempts to fetch all available file extensions for a MIME-type.
+            </summary>
+            <param name="mimeType">The name of the MIME-type</param>
+            <returns>All available extensions for the given MIME-type</returns>
+        </member>
+        <member name="M:DataIntegrationProvider.WebUI.MimeTypes.TryGetMimeType(System.String,System.String@)">
+            <summary>
+            Tries to get the MIME-type for the given file name.
+            </summary>
+            <param name="fileName">The name of the file.</param>
+            <param name="mimeType">The MIME-type for the given file name.</param>
+            <returns><c>true</c> if a MIME-type was found, <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:DataIntegrationProvider.WebUI.MimeTypes.GetMimeType(System.String)">
+            <summary>
+            Gets the MIME-type for the given file name,
+            or <see cref="P:DataIntegrationProvider.WebUI.MimeTypes.FallbackMimeType"/> if a mapping doesn't exist.
+            </summary>
+            <param name="fileName">The name of the file.</param>
+            <returns>The MIME-type for the given file name.</returns>
+        </member>
+    </members>
+</doc>
