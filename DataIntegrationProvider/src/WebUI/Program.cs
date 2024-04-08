@@ -1,10 +1,8 @@
 
 using DataIntegrationProvider.Application;
 using DataIntegrationProvider.Application.Application.Common.Interfaces;
-using DataIntegrationProvider.Application.Application.ContextMaps.Contents.Commands;
 using DataIntegrationProvider.Domain.Enums;
 using DataIntegrationProvider.Infrastructure;
-using DataIntegrationProvider.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -17,6 +15,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Marten;
+using EnigmaDataProvider.Infrastructure.Persistence;
 
 namespace DataIntegrationProvider.WebUI
 {
@@ -27,35 +27,43 @@ namespace DataIntegrationProvider.WebUI
             TseLog.Addlog();
             var host = CreateHostBuilder(args).Build();
 
-            var scope = host.Services.CreateScope();
-            var services = scope.ServiceProvider;
-
-
-
-            var configDbContext = services.GetRequiredService<ConfigDbContext>();
-            configDbContext.Database.Migrate();
-
-            var codalDbContext = services.GetRequiredService<CodalDbContext>();
-            codalDbContext.Database.Migrate();
+            //var scope = host.Services.CreateScope();
+            //var services = scope.ServiceProvider;
 
             await host.RunAsync();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args)
         {
-   
+
 
 
             return Host.CreateDefaultBuilder(args)
-                //.UseWindowsService()
-                .ConfigureServices(async services => {
+            //.UseWindowsService()
+            .ConfigureServices(async services =>
+            {
 
-                    var builder = new ConfigurationBuilder().AddJsonFile("appsettings.json");
-                    var Configuration = builder.Build();
-                    services.AddOptions();
-                    services.AddInfrastructure(Configuration);
-                    services.AddJobs(Configuration);
-                }).UseTselog();
+                var builder = new ConfigurationBuilder().AddJsonFile("appsettings.json");
+                var Configuration = builder.Build();
+
+
+                services.Configure<IEnumerable<PlanningInfoId>>(Configuration.GetSection("PlanTypes"));
+                services.AddOptions();
+                services.AddInfrastructure(Configuration);
+                var config = services.AddMarten(options =>
+                      {
+                          options.Connection(Configuration.GetConnectionString("DefaultConnection"));
+                          options.CreateDatabasesForTenants(c =>
+                              c.ForTenant()
+              .CheckAgainstPgDatabase()
+              .WithOwner("postgres")
+              .WithEncoding("UTF-8")
+              .ConnectionLimit(-1)
+
+              );
+                      });
+                services.AddJobs();
+            }).UseTselog();
         }
     }
 }

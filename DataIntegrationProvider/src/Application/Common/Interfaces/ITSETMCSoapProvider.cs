@@ -9,6 +9,6 @@ namespace TSE.SiteAPI.Application.Common.Interfaces
 {
     public interface ITSETMCSoapProvider
     {
-        List<T> GetData<T>(ServiceInfo serviceInfo, string url,params int[] flow) where T:class;
+        List<T> GetData<T>(PlanningInfo planningInfo, string url,params int[] flow) where T:class;
     }
 }

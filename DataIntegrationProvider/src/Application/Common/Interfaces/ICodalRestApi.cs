@@ -11,7 +11,7 @@ namespace DataIntegrationProvider.Application.Application.Common.Interfaces
 {
     public interface ICodalRestApi
     {
-        Task SetAPIKey(ServiceInfoCategoryId serviceInfoCategoryId);
+        Task SetAPIKey(PlanningInfoId serviceInfoCategoryId);
         Task Login(CancellationToken cancellationToken = default);
         Task<string> Get(string urlPath,CancellationToken cancellationToken = default);
 

@@ -27,20 +27,18 @@ namespace DataIntegrationProvider.Infrastructure.Services
         private readonly string codal_UserName = "user.tse";
         private readonly string codal_Password = "tse@userMm123456";
         private readonly string codal_Userkey = "2274fe089d699e8fd7f884d72ea5e0e30839fd25";
-        private readonly IConfigProvider _configProvider;
-        public CodalRestApi(IConfiguration configuration, ILogger<CodalRestApi> logger, IConfigProvider configProvider)
+        public CodalRestApi(IConfiguration configuration, ILogger<CodalRestApi> logger)
         {
             _configuration = configuration;
             _logger = logger;
-            _configProvider = configProvider;
 
         }
         private static bool flagBusy = false;
-        ServiceInfoCategoryId ServiceInfoCategoryId;
-        public async Task SetAPIKey(ServiceInfoCategoryId serviceInfoCategoryId)
+        PlanningInfoId ServiceInfoCategoryId;
+        public async Task SetAPIKey(PlanningInfoId serviceInfoCategoryId)
         {
             ServiceInfoCategoryId = serviceInfoCategoryId;
-            CodalToken = await _configProvider.GetApiKey(serviceInfoCategoryId);
+            //CodalToken = await _configProvider.GetApiKey(serviceInfoCategoryId);
         }
         public async Task Login(CancellationToken cancellationToken = default)
         {
@@ -76,7 +74,7 @@ namespace DataIntegrationProvider.Infrastructure.Services
                     {
                         CodalToken = await responseMessage.Content.ReadAsStringAsync();
                         CodalToken=CodalToken.Substring(1,CodalToken.Length-2);
-                        await _configProvider.UpdateApiKey(ServiceInfoCategoryId, CodalToken);
+                        //await _configProvider.UpdateApiKey(ServiceInfoCategoryId, CodalToken);
                     }
                 }
             }

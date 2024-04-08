@@ -24,11 +24,11 @@ namespace DataIntegrationProvider.Infrastructure.Services
             _logger = logger;
         }
         private readonly string _uri = "http://service.tsetmc.com/WebService/TsePublicV2.asmx";
-        public List<TModel> GetData<TModel>(ServiceInfo serviceInfo, string url, params int[] flow) where TModel : class
+        public List<TModel> GetData<TModel>(PlanningInfo serviceInfo, string url, params int[] flow) where TModel : class
         {
             int tryCount = 3;
             List<TModel> dataModels = new List<TModel>();
-            var _serviceInfoLog = $"ServiceInfoCategory: {serviceInfo.ServiceInfoCategoryId.GetDisplayName()} ServiceInfoTypeName: {serviceInfo.ServiceInfoTypeName} InstanceName: {serviceInfo.InstanceName} SerivceInfoDetailId :{serviceInfo.ServiceInfoId}";
+            var _serviceInfoLog = $"ServiceInfoCategory: {serviceInfo.PlanningInfoId.GetDisplayName()} ServiceInfoTypeName: {serviceInfo.PlanName}  SerivceInfoDetailId :{serviceInfo.PlanningInfoId}";
             try
             {
                 if (flow == null || !flow.Any())
