@@ -37,7 +37,7 @@ namespace DataIntegrationProvider.Infrastructure
             services.AddSingleton<ITSETMCSoapProvider, TSETMCSoapProvider>();
 
             //services.AddTransient<CodalRestCommand>();
-            services.AddTransient<TSETMC_ClientTypeCommand>();
+            services.AddTransient<TGJU_SummaryCommand>();
 
 
 

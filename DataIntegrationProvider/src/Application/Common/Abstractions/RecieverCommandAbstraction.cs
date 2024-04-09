@@ -23,27 +23,26 @@ namespace DataIntegrationProvider.Application.Application.Common.Abstractions
         public RecieverCommandAbstraction(IDocumentSession documentSession, ILogger<RecieverCommandAbstraction<T>> logger)
         {
             _logger = logger;
-
-
             _documentSession = documentSession;
         }
         public abstract PlanningInfoId PlanningInfoId { get; }
-        protected abstract Task<List<T>> GetData(PlanningInfo serviceInfo);
-        protected abstract Task<bool> SaveData(List<T> response, PlanningInfo planningInfo);
-        protected abstract Task<bool> DeleteData(List<T> response, PlanningInfo planningInfo);
+        protected abstract Task<T> GetData(PlanningInfo serviceInfo);
+        protected abstract Task<bool> SaveData(T response, PlanningInfo planningInfo);
+        protected abstract Task<bool> DeleteData(T response, PlanningInfo planningInfo);
         protected abstract void Dispose();
+        public IDocumentSession DocumentSession { get { return _documentSession; } }
         public async Task Run(PlanningInfo plan)
         {
             if (_flag)
                 return;
             _flag = true;
-            List<T> allData = null;
+            T allData = null;
             var dtime = DateTime.Now;
             string _planLog = string.Empty;
             try
             {
                 await Task.Delay(200);
-                plan = _documentSession.Query<PlanningInfo>().FirstOrDefault(p => p.PlanningInfoId == plan.PlanningInfoId);
+                //plan = _documentSession.Query<PlanningInfo>().FirstOrDefault(p => p.PlanningInfoId == plan.PlanningInfoId);
 
 
                 if (plan == null)
@@ -60,7 +59,7 @@ namespace DataIntegrationProvider.Application.Application.Common.Abstractions
                 try
                 {
                     allData = await GetData(plan);
-                    if (allData == null || !allData.Any())
+                    if (allData == null )
                     {
                         _logger.LogWarning($"Null Data Response in Calling Data {_planLog}");
                         return;
@@ -81,10 +80,10 @@ namespace DataIntegrationProvider.Application.Application.Common.Abstractions
                         _logger.LogWarning($"Start Delete OldData For Data {_planLog}");
                         await DeleteData(allData, plan);
                     }
-                    _logger.LogInformation($"Start Save Response {allData.Count} Count For Data {_planLog}");
+                    _logger.LogInformation($"Start Save Response  For Data {_planLog}");
                     await SaveData(allData, plan);
 
-                    _logger.LogInformation($" {allData.Count} Count Saved Successfully For Data {_planLog}");
+                    _logger.LogInformation($"Saved Successfully For Data {_planLog}");
                 }
                 catch (Exception ex)
                 {
@@ -100,8 +99,6 @@ namespace DataIntegrationProvider.Application.Application.Common.Abstractions
                 var dtime2 = DateTime.Now;
                 _logger.LogInformation($"ProceeId {plan.PlanningInfoId} Run In {dtime2.Subtract(dtime).TotalSeconds} Sec");
                 await Task.Delay(plan.Interval * 1000);
-                if (allData != null)
-                    allData.Clear();
                 allData = null;
                 Dispose();
                 plan = null;

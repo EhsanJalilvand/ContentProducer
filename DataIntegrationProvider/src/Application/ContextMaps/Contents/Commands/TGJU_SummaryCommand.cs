@@ -20,37 +20,45 @@ using Microsoft.EntityFrameworkCore;
 using TSE.SiteAPI.Application.Common.CustomAttributes;
 using TSE.SiteAPI.Application.Common.Interfaces;
 using Marten;
+using TSE.SiteAPI.Application.Common.HttpProvider;
+using EnigmaDataProvider.Domain.Models;
 
 namespace DataIntegrationProvider.Application.Application.ContextMaps.Contents.Commands
 {
-    public class TSETMC_ClientTypeCommand : RecieverCommandAbstraction<PlanningInfo>
+    public class TGJU_SummaryCommand : RecieverCommandAbstraction<TGJU_Summary>
     {
-        public TSETMC_ClientTypeCommand(IDocumentSession _documentSession, ILogger<RecieverCommandAbstraction<PlanningInfo>> logger, ITSETMCSoapProvider iTSETMCSoapProvider) : base(_documentSession, logger)
+        private readonly ITgjuApi _tgjuApi;
+        public TGJU_SummaryCommand(IDocumentSession _documentSession, ILogger<RecieverCommandAbstraction<TGJU_Summary>> logger, ITSETMCSoapProvider iTSETMCSoapProvider, ITgjuApi tgjuApi) : base(_documentSession, logger)
         {
+            _tgjuApi = tgjuApi;
         }
 
         public override PlanningInfoId PlanningInfoId => PlanningInfoId.TGJU_Summary;
 
-        protected async override Task<List<PlanningInfo>> GetData(PlanningInfo serviceInfo)
+        protected async override Task<TGJU_Summary> GetData(PlanningInfo detail)
         {
-            return new List<PlanningInfo>() { new PlanningInfo() };
+            var result = await _tgjuApi.GetSummary();
+            return result;
         }
 
-        protected override async Task<bool> SaveData(List<PlanningInfo> response, PlanningInfo detail)
+        protected override async Task<bool> SaveData(TGJU_Summary response, PlanningInfo detail)
         {
-      
+            DocumentSession.Store(response);
+            await DocumentSession.SaveChangesAsync();
             return true;
         }
 
 
-        protected override async Task<bool> DeleteData(List<PlanningInfo> response, PlanningInfo detail)
+        protected override async Task<bool> DeleteData(TGJU_Summary response, PlanningInfo detail)
         {
-           
+
+            DocumentSession.HardDeleteWhere<TGJU_Summary>(x => x.ID>0);
+            await DocumentSession.SaveChangesAsync();
             return true;
         }
         protected override void Dispose()
         {
-           
+
         }
     }
 
