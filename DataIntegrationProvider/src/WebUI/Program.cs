@@ -53,7 +53,7 @@ namespace DataIntegrationProvider.WebUI
                 services.AddOptions();
                 services.AddInfrastructure(Configuration);
                 services.AddRefitClient<ITgjuApi>().ConfigureHttpClient(c => c.BaseAddress = new Uri("https://call3.tgju.org"));
-
+                services.AddRefitClient<IHolidayIRApi>().ConfigureHttpClient(c => c.BaseAddress = new Uri("https://holidayapi.ir"));
 
                 var config = services.AddMarten(options =>
                       {

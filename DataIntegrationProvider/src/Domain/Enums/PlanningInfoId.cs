@@ -13,5 +13,8 @@ namespace DataIntegrationProvider.Domain.Enums
         [Display(Name = "TGJU_Summary")]
         [Plan(11,0,16,0,5*60,true,false)]
         TGJU_Summary = 1,
+        [Display(Name = "HolidayIR_Response")]
+        [Plan(11, 0, 22, 0, 1, false, true)]
+        HolidayIR_Response = 2,
     }
 }

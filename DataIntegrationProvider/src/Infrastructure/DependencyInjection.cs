@@ -38,7 +38,7 @@ namespace DataIntegrationProvider.Infrastructure
 
             //services.AddTransient<CodalRestCommand>();
             services.AddTransient<TGJU_SummaryCommand>();
-
+            services.AddTransient<HolidayIR_ResponseCommand>();
 
 
 
