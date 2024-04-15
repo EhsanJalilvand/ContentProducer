@@ -34,8 +34,8 @@ namespace DataIntegrationProvider.Infrastructure.Services
 
         }
         private static bool flagBusy = false;
-        PlanningInfoId ServiceInfoCategoryId;
-        public async Task SetAPIKey(PlanningInfoId serviceInfoCategoryId)
+        ServiceCategoryId ServiceInfoCategoryId;
+        public async Task SetAPIKey(ServiceCategoryId serviceInfoCategoryId)
         {
             ServiceInfoCategoryId = serviceInfoCategoryId;
             //CodalToken = await _configProvider.GetApiKey(serviceInfoCategoryId);

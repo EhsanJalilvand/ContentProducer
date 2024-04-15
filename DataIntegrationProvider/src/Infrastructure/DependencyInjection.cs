@@ -37,8 +37,8 @@ namespace DataIntegrationProvider.Infrastructure
             services.AddSingleton<ITSETMCSoapProvider, TSETMCSoapProvider>();
 
             //services.AddTransient<CodalRestCommand>();
-            services.AddTransient<TGJU_SummaryCommand>();
-            services.AddTransient<HolidayIR_ResponseCommand>();
+            services.AddTransient<TGJU_Command>();
+            services.AddTransient<HolidayIR_Command>();
             services.AddTransient<BamaIRCommand>();
 
 
@@ -62,7 +62,7 @@ namespace DataIntegrationProvider.Infrastructure
 
 
 
-                    if (Enum.TryParse(item.Value,out PlanningInfoId planningInfoId))
+                    if (Enum.TryParse(item.Value,out ServiceCategoryId planningInfoId))
                     {
                         var plan = planningInfoId.GetAttribute<PlanAttribute>();
                         if (plan != null)
@@ -96,36 +96,42 @@ namespace DataIntegrationProvider.Infrastructure
 
 
 
-                Dictionary<PlanningInfoId, Type> dic = new Dictionary<PlanningInfoId, Type>();
+                List<IRecieverService> dic = new List<IRecieverService>();
                 var assembly = typeof(DataIntegrationProvider.Application.Application.DependencyInjection).Assembly;
 
                 foreach (Type ti in assembly.GetTypes().Where(mytype => mytype.GetInterfaces().Contains(typeof(IRecieverService))))
                 {
                     var service = provider.GetService(ti) as IRecieverService;
                     if (service != null)
-                        dic.Add(service.PlanningInfoId, ti);
+                        dic.Add(service);
                 }
 
                 foreach (var item in configs)
                 {
-                    var type = dic[item.PlanningInfoId];
+                    var services = dic.Where(s => s.ServiceCategoryId == item.PlanningInfoId).ToList();// dic[item.PlanningInfoId];
 
-                      
-                    var dataMap = new JobDataMap();
-                    dataMap.Put("PlanningInfo", item);
-
+                    foreach (var service in services)
+                    {
 
 
-                    var jkey = new JobKey(item.PlanName, "group1");
-                    q.AddJob(type, jkey, a => a.WithDescription(item.PlanName).SetJobData(dataMap).WithIdentity(jkey));
-                    q.AddTrigger(trigger => trigger
-                    .ForJob(jkey)
-                    .WithIdentity("trigger" + item.PlanningInfoId.ToString(), "triggerGroup" + item.PlanningInfoId.ToString())
-                         .WithDailyTimeIntervalSchedule(x => x.OnEveryDay()
-    .StartingDailyAt(TimeOfDay.HourAndMinuteOfDay(item.StartTime.Hours, item.StartTime.Minutes))
-    .EndingDailyAt(TimeOfDay.HourAndMinuteOfDay(item.StopTime?.Hours ?? 23, item.StopTime?.Minutes ?? 0))
-    .WithIntervalInSeconds(item.Interval))
-                         );
+                        var dataMap = new JobDataMap();
+                        dataMap.Put("PlanningInfo", item);
+
+
+
+                        var jkey = new JobKey(service.GetType().Name, service.ServiceCategoryId.ToString());
+                        q.AddJob(service.GetType(), jkey, a => a.WithDescription(item.PlanName).SetJobData(dataMap).WithIdentity(jkey));
+                        q.AddTrigger(trigger => trigger
+                        .ForJob(jkey)
+                        .WithIdentity("trigger" + service.GetType().Name, "triggerGroup" + item.PlanningInfoId.ToString())
+                             .WithDailyTimeIntervalSchedule(x => x.OnEveryDay()
+        .StartingDailyAt(TimeOfDay.HourAndMinuteOfDay(item.StartTime.Hours, item.StartTime.Minutes))
+        .EndingDailyAt(TimeOfDay.HourAndMinuteOfDay(item.StopTime?.Hours ?? 23, item.StopTime?.Minutes ?? 0))
+        .WithIntervalInSeconds(item.Interval))
+                             );
+
+                    }
+
                 }
             });
 

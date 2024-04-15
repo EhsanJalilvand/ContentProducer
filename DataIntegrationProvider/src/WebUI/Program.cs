@@ -49,7 +49,7 @@ namespace DataIntegrationProvider.WebUI
                 var Configuration = builder.Build();
 
 
-                services.Configure<IEnumerable<PlanningInfoId>>(Configuration.GetSection("PlanTypes"));
+                services.Configure<IEnumerable<ServiceCategoryId>>(Configuration.GetSection("PlanTypes"));
                 services.AddOptions();
                 services.AddInfrastructure(Configuration);
                 services.AddRefitClient<ITgjuApi>().ConfigureHttpClient(c => c.BaseAddress = new Uri("https://call3.tgju.org"));

@@ -25,18 +25,18 @@ using EnigmaDataProvider.Domain.Models;
 using HtmlAgilityPack;
 namespace DataIntegrationProvider.Application.Application.ContextMaps.Contents.Commands
 {
-    public class BamaIRCommand : RecieverCommandAbstraction<BamaIR_Response>
+    public class BamaIRCommand : RecieverCommandAbstraction<BamaIR>
     {
         private readonly IBamaIRApi _bamaIRApi;
-        public BamaIRCommand(IDocumentSession _documentSession, ILogger<RecieverCommandAbstraction<BamaIR_Response>> logger, ITSETMCSoapProvider iTSETMCSoapProvider, IBamaIRApi bamaIRApi) : base(_documentSession, logger)
+        public BamaIRCommand(IDocumentSession _documentSession, ILogger<RecieverCommandAbstraction<BamaIR>> logger, ITSETMCSoapProvider iTSETMCSoapProvider, IBamaIRApi bamaIRApi) : base(_documentSession, logger)
         {
             _bamaIRApi = bamaIRApi;
         }
 
-        public override PlanningInfoId PlanningInfoId => PlanningInfoId.BamaIR_Response;
-        protected async override Task<BamaIR_Response> GetData(PlanningInfo detail)
+        public override ServiceCategoryId ServiceCategoryId => ServiceCategoryId.BamaIR;
+        protected async override Task<BamaIR> GetData(PlanningInfo detail)
         {
-            BamaIR_Response responseTemp = null;
+            BamaIR responseTemp = null;
             List<BamaIR_Group> Datums = new List<BamaIR_Group>();
             int i = 0;
             do
@@ -53,25 +53,11 @@ namespace DataIntegrationProvider.Application.Application.ContextMaps.Contents.C
             if (!Datums.Any())
                 return null;
 
-            BamaIR_Response bamaIR_Response = new BamaIR_Response() { Data=Datums.ToArray()};
+            BamaIR bamaIR_Response = new BamaIR() { Data=Datums.ToArray()};
             return bamaIR_Response;
         }
 
-        protected override async Task<bool> SaveData(BamaIR_Response response, PlanningInfo detail)
-        {
-            DocumentSession.Store(response);
-            await DocumentSession.SaveChangesAsync();
-            return true;
-        }
 
-
-        protected override async Task<bool> DeleteData(BamaIR_Response response, PlanningInfo detail)
-        {
-
-            DocumentSession.HardDeleteWhere<BamaIR_Response>(x => x.ID > 0);
-            await DocumentSession.SaveChangesAsync();
-            return true;
-        }
         protected override void Dispose()
         {
 

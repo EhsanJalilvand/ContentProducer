@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace EnigmaDataProvider.Domain.Models
 {
-    public class TGJU_Summary
+    public class TGJU:ModelBase
     {
-        public long ID { get; set; }
         [JsonProperty("current")]
         public Dictionary<string, TGJU_SummaryItem> Current { get; set; }
     }

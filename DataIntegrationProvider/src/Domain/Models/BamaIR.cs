@@ -8,9 +8,8 @@ using System.Threading.Tasks;
 namespace EnigmaDataProvider.Domain.Models
 {
 
-    public partial class BamaIR_Response
+    public partial class BamaIR:ModelBase
     {
-        public long ID { get; set; }
         public BamaIR_Group[] Data { get; set; }
     }
 

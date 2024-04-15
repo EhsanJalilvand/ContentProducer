@@ -26,15 +26,15 @@ using System.Globalization;
 
 namespace DataIntegrationProvider.Application.Application.ContextMaps.Contents.Commands
 {
-    public class HolidayIR_ResponseCommand : RecieverCommandAbstraction<HolidayIR>
+    public class HolidayIR_Command : RecieverCommandAbstraction<HolidayIR>
     {
         private readonly IHolidayIRApi _holidayIRApi;
-        public HolidayIR_ResponseCommand(IDocumentSession _documentSession, ILogger<RecieverCommandAbstraction<HolidayIR>> logger, ITSETMCSoapProvider iTSETMCSoapProvider, IHolidayIRApi holidayIRApi) : base(_documentSession, logger)
+        public HolidayIR_Command(IDocumentSession _documentSession, ILogger<RecieverCommandAbstraction<HolidayIR>> logger, ITSETMCSoapProvider iTSETMCSoapProvider, IHolidayIRApi holidayIRApi) : base(_documentSession, logger)
         {
             _holidayIRApi = holidayIRApi;
         }
 
-        public override PlanningInfoId PlanningInfoId => PlanningInfoId.HolidayIR_Response;
+        public override ServiceCategoryId ServiceCategoryId => ServiceCategoryId.HolidayIR;
 
         protected async override Task<HolidayIR> GetData(PlanningInfo detail)
         {
@@ -67,26 +67,9 @@ namespace DataIntegrationProvider.Application.Application.ContextMaps.Contents.C
                 DocumentSession.Store(config);
 
             var result = await _holidayIRApi.GetResponse(year, month, day);
-            result.Date = dtime;
             return result;
         }
 
-        protected override async Task<bool> SaveData(HolidayIR response, PlanningInfo detail)
-        {
-            DocumentSession.Query<HolidayIR>();
-            DocumentSession.Store(response);
-            await DocumentSession.SaveChangesAsync();
-            return true;
-        }
-
-
-        protected override async Task<bool> DeleteData(HolidayIR response, PlanningInfo detail)
-        {
-
-            //DocumentSession.HardDeleteWhere<HolidayIR_Response>(x => x.ID>0);
-            //await DocumentSession.SaveChangesAsync();
-            return true;
-        }
         protected override void Dispose()
         {
 

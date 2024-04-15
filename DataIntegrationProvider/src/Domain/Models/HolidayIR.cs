@@ -7,15 +7,13 @@ using System.Threading.Tasks;
 
 namespace EnigmaDataProvider.Domain.Models
 {
-    public partial class HolidayIR
+    public partial class HolidayIR: ModelBase
     {
-        public long ID { get; set; }
         [JsonProperty("is_holiday")]
         public bool is_holiday { get; set; }
 
         [JsonProperty("events")]
         public Event[] Events { get; set; }
-        public DateTime Date { get; set; }
     }
     public partial class Event
     {

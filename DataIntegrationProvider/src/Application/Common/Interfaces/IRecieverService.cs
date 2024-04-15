@@ -11,7 +11,7 @@ namespace DataIntegrationProvider.Application.Application.Common.Interfaces
 {
     public interface IRecieverService: IJob
     {
-        PlanningInfoId PlanningInfoId { get;  }
+        ServiceCategoryId ServiceCategoryId { get;  }
         Task Run(PlanningInfo planningInfo);
     }
 }

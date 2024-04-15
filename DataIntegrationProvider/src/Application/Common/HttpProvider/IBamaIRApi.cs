@@ -12,6 +12,6 @@ namespace TSE.SiteAPI.Application.Common.HttpProvider
     public interface IBamaIRApi
     {
         [Get("/cad/api/Price/hierarchy?pageIndex={index}&searchQuery=&pageSize=5")]
-        Task<BamaIR_Response> GetResponse(int index, CancellationToken cancellationToken = default);
+        Task<BamaIR> GetResponse(int index, CancellationToken cancellationToken = default);
     }
 }

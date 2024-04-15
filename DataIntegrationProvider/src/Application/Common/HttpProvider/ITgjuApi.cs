@@ -12,6 +12,6 @@ namespace TSE.SiteAPI.Application.Common.HttpProvider
     public interface ITgjuApi
     {
         [Get("/ajax.json")]
-        Task<TGJU_Summary> GetSummary(CancellationToken cancellationToken = default);
+        Task<TGJU> GetSummary(CancellationToken cancellationToken = default);
     }
 }

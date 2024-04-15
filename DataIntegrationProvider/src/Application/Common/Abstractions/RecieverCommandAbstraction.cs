@@ -12,10 +12,11 @@ using DataIntegrationProvider.Domain.ConfigEntities;
 using Quartz;
 using Share.Domain.Extensions;
 using Marten;
+using EnigmaDataProvider.Domain.Models;
 
 namespace DataIntegrationProvider.Application.Application.Common.Abstractions
 {
-    public abstract class RecieverCommandAbstraction<T> : IRecieverService where T : class
+    public abstract class RecieverCommandAbstraction<T> : IRecieverService where T : ModelBase
     {
         private readonly IDocumentSession _documentSession;
         private readonly ILogger<RecieverCommandAbstraction<T>> _logger;
@@ -25,10 +26,22 @@ namespace DataIntegrationProvider.Application.Application.Common.Abstractions
             _logger = logger;
             _documentSession = documentSession;
         }
-        public abstract PlanningInfoId PlanningInfoId { get; }
+        public abstract ServiceCategoryId ServiceCategoryId { get; }
         protected abstract Task<T> GetData(PlanningInfo serviceInfo);
-        protected abstract Task<bool> SaveData(T response, PlanningInfo planningInfo);
-        protected abstract Task<bool> DeleteData(T response, PlanningInfo planningInfo);
+        protected virtual async Task<bool> SaveData(T response, PlanningInfo planningInfo)
+        {
+            response.CreateTime = DateTime.Now;
+            response.ServiceCategoryName=ServiceCategoryId.GetDisplayName();
+            DocumentSession.Store(response);
+            await DocumentSession.SaveChangesAsync();
+            return true;
+        }
+        protected virtual async Task<bool> DeleteData(T response, PlanningInfo planningInfo)
+        {
+            DocumentSession.HardDeleteWhere<T>(x => x.ID > 0);
+            await DocumentSession.SaveChangesAsync();
+            return true;
+        }
         protected abstract void Dispose();
         public IDocumentSession DocumentSession { get { return _documentSession; } }
         public async Task Run(PlanningInfo plan)

@@ -25,37 +25,22 @@ using EnigmaDataProvider.Domain.Models;
 
 namespace DataIntegrationProvider.Application.Application.ContextMaps.Contents.Commands
 {
-    public class TGJU_SummaryCommand : RecieverCommandAbstraction<TGJU_Summary>
+    public class TGJU_Command : RecieverCommandAbstraction<TGJU>
     {
         private readonly ITgjuApi _tgjuApi;
-        public TGJU_SummaryCommand(IDocumentSession _documentSession, ILogger<RecieverCommandAbstraction<TGJU_Summary>> logger, ITSETMCSoapProvider iTSETMCSoapProvider, ITgjuApi tgjuApi) : base(_documentSession, logger)
+        public TGJU_Command(IDocumentSession _documentSession, ILogger<RecieverCommandAbstraction<TGJU>> logger, ITSETMCSoapProvider iTSETMCSoapProvider, ITgjuApi tgjuApi) : base(_documentSession, logger)
         {
             _tgjuApi = tgjuApi;
         }
 
-        public override PlanningInfoId PlanningInfoId => PlanningInfoId.TGJU_Summary;
+        public override ServiceCategoryId ServiceCategoryId => ServiceCategoryId.TGJU;
 
-        protected async override Task<TGJU_Summary> GetData(PlanningInfo detail)
+        protected async override Task<TGJU> GetData(PlanningInfo detail)
         {
             var result = await _tgjuApi.GetSummary();
             return result;
         }
 
-        protected override async Task<bool> SaveData(TGJU_Summary response, PlanningInfo detail)
-        {
-            DocumentSession.Store(response);
-            await DocumentSession.SaveChangesAsync();
-            return true;
-        }
-
-
-        protected override async Task<bool> DeleteData(TGJU_Summary response, PlanningInfo detail)
-        {
-
-            DocumentSession.HardDeleteWhere<TGJU_Summary>(x => x.ID>0);
-            await DocumentSession.SaveChangesAsync();
-            return true;
-        }
         protected override void Dispose()
         {
 

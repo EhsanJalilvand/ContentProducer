@@ -39,8 +39,8 @@ namespace EnigmaDataProvider.Infrastructure.Persistence
         public static PlanningInfo[] PlanningInfos { get { return _planningInfos.ToArray<PlanningInfo>(); } }
         private static void FillPlanningInfo()
         {
-            List<PlanningInfoId> enumInfos = new List<PlanningInfoId>();
-            foreach (var item in Enum.GetValues(typeof(PlanningInfoId)).Cast<PlanningInfoId>())
+            List<ServiceCategoryId> enumInfos = new List<ServiceCategoryId>();
+            foreach (var item in Enum.GetValues(typeof(ServiceCategoryId)).Cast<ServiceCategoryId>())
             {
                 var plan= item.GetAttribute<PlanAttribute>();
                 if(plan != null)
