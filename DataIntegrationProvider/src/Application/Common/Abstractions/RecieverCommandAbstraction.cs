@@ -27,11 +27,17 @@ namespace DataIntegrationProvider.Application.Application.Common.Abstractions
             _documentSession = documentSession;
         }
         public abstract ServiceCategoryId ServiceCategoryId { get; }
+        public abstract LanguageId LanguageId { get; }
+        public abstract CategoryId CategoryId { get; }
+        public abstract SubCategoryId SubCategoryId { get; }
         protected abstract Task<T> GetData(PlanningInfo serviceInfo);
         protected virtual async Task<bool> SaveData(T response, PlanningInfo planningInfo)
         {
             response.CreateTime = DateTime.Now;
             response.ServiceCategoryName=ServiceCategoryId.GetDisplayName();
+            response.Language=LanguageId.GetDisplayName();
+            response.Category=CategoryId.GetDisplayName();
+            response.SubCategory=SubCategoryId.GetDisplayName();
             DocumentSession.Store(response);
             await DocumentSession.SaveChangesAsync();
             return true;

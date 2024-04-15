@@ -34,6 +34,11 @@ namespace DataIntegrationProvider.Application.Application.ContextMaps.Contents.C
         }
 
         public override ServiceCategoryId ServiceCategoryId => ServiceCategoryId.TGJU;
+        public override LanguageId LanguageId => LanguageId.Fa;
+
+        public override CategoryId CategoryId => CategoryId.Market;
+
+        public override SubCategoryId SubCategoryId => SubCategoryId.Summary;
 
         protected async override Task<TGJU> GetData(PlanningInfo detail)
         {

@@ -11,5 +11,8 @@ namespace EnigmaDataProvider.Domain.Models
         public long ID { get; set; }
         public DateTime CreateTime { get; set; }
         public string ServiceCategoryName { get; set; }
+        public string Language { get; set; }
+        public string Category { get; set; }
+        public string SubCategory { get; set; }
     }
 }

@@ -35,13 +35,17 @@ namespace DataIntegrationProvider.Application.Application.ContextMaps.Contents.C
         }
 
         public override ServiceCategoryId ServiceCategoryId => ServiceCategoryId.HolidayIR;
+        public override LanguageId LanguageId => LanguageId.Fa;
 
+        public override CategoryId CategoryId => CategoryId.Calendar;
+
+        public override SubCategoryId SubCategoryId => SubCategoryId.Holiday;
         protected async override Task<HolidayIR> GetData(PlanningInfo detail)
         {
             string key = "HolidayIR";
             var config = DocumentSession.Query<Config>().Where(w => w.Key == key).FirstOrDefault();
             PersianCalendar persianCalendar = new PersianCalendar();
-            int year=0, month=0, day=0;
+            int year = 0, month = 0, day = 0;
             DateTime dtime = DateTime.Now;
             if (config == null)
             {
@@ -54,8 +58,8 @@ namespace DataIntegrationProvider.Application.Application.ContextMaps.Contents.C
             }
             else
             {
-                dtime =DateTime.ParseExact(config.Value, "yyyyMMdd", null);
-                dtime= dtime.AddDays(1);
+                dtime = DateTime.ParseExact(config.Value, "yyyyMMdd", null);
+                dtime = dtime.AddDays(1);
 
                 year = persianCalendar.GetYear(dtime);
                 month = persianCalendar.GetMonth(dtime);
@@ -64,7 +68,7 @@ namespace DataIntegrationProvider.Application.Application.ContextMaps.Contents.C
                 config.Value = dtime.ToString("yyyyMMdd");
 
             }
-                DocumentSession.Store(config);
+            DocumentSession.Store(config);
 
             var result = await _holidayIRApi.GetResponse(year, month, day);
             return result;

@@ -34,6 +34,14 @@ namespace DataIntegrationProvider.Application.Application.ContextMaps.Contents.C
         }
 
         public override ServiceCategoryId ServiceCategoryId => ServiceCategoryId.BamaIR;
+        public override LanguageId LanguageId => LanguageId.Fa;
+
+        public override CategoryId CategoryId => CategoryId.Market;
+
+        public override SubCategoryId SubCategoryId => SubCategoryId.Car;
+
+  
+
         protected async override Task<BamaIR> GetData(PlanningInfo detail)
         {
             BamaIR responseTemp = null;
