@@ -23,6 +23,7 @@ using System.Threading.Tasks;
 using TSE.SiteAPI.Application.Common.Interfaces;
 using Share.Domain.Extensions;
 using DataIntegrationProvider.Application.Application.ContextMaps.Contents.Commands;
+using System.Reflection;
 
 namespace DataIntegrationProvider.Infrastructure
 {
@@ -40,45 +41,28 @@ namespace DataIntegrationProvider.Infrastructure
             services.AddTransient<TGJU_Command>();
             services.AddTransient<HolidayIR_Command>();
             services.AddTransient<BamaIRCommand>();
-
+            services.AddTransient<Beytoote_NewsPaper_Command>();
 
         }
 
         public static void AddJobs(this IServiceCollection services)
         {
-       
+
             services.AddQuartz(q =>
             {
                 IServiceProvider provider = services.BuildServiceProvider();
-                var configuration=provider.GetRequiredService<IConfiguration>();
+                var configuration = provider.GetRequiredService<IConfiguration>();
 
                 var planTypesConfig = configuration.GetSection("PlanTypes").AsEnumerable();
-                List<PlanningInfo> configs = new List<PlanningInfo>();
+                List<ServiceCategoryId> configs = new List<ServiceCategoryId>();
                 foreach (var item in planTypesConfig)
                 {
                     if (string.IsNullOrEmpty(item.Key) || string.IsNullOrEmpty(item.Value))
                         continue;
 
-
-
-
-                    if (Enum.TryParse(item.Value,out ServiceCategoryId planningInfoId))
+                    if (Enum.TryParse(item.Value, out ServiceCategoryId planningInfoId))
                     {
-                        var plan = planningInfoId.GetAttribute<PlanAttribute>();
-                        if (plan != null)
-                        {
-                            configs.Add(new PlanningInfo()
-                            {
-                                ID = (int)planningInfoId,
-                                PlanningInfoId = planningInfoId,
-                                PlanName = planningInfoId.GetDisplayName(),
-                                StartTime = new TimeSpan(plan.StartHour, plan.StartMinute, 0),
-                                StopTime = new TimeSpan(plan.EndHour, plan.EndMinute, 0),
-                                CanDelete = plan.CanDelete,
-                                Interval = plan.Interval,
-                                RunInHoliday = plan.RunInHoliday,
-                            });
-                        }
+                        configs.Add(planningInfoId);
                     }
                 }
 
@@ -108,26 +92,41 @@ namespace DataIntegrationProvider.Infrastructure
 
                 foreach (var item in configs)
                 {
-                    var services = dic.Where(s => s.ServiceCategoryId == item.PlanningInfoId).ToList();// dic[item.PlanningInfoId];
+                    var myServices = dic.Where(s => s.ServiceCategoryId == item).ToList();// dic[item.PlanningInfoId];
 
-                    foreach (var service in services)
+                    foreach (var service in myServices)
                     {
+                        var type = service.GetType();
+                        var planInfo = type.GetCustomAttributes(typeof(PlanAttribute), true)
+                                                .FirstOrDefault() as PlanAttribute;
+
+                        var planningInfo = new PlanningInfo()
+                        {
+                            ID = (int)service.ServiceCategoryId,
+                            ServiceCategoryId = service.ServiceCategoryId,
+                            PlanName = service.ServiceCategoryId.GetDisplayName(),
+                            StartTime = new TimeSpan(planInfo.StartHour, planInfo.StartMinute, 0),
+                            StopTime = new TimeSpan(planInfo.EndHour, planInfo.EndMinute, 0),
+                            CanDelete = planInfo.CanDelete,
+                            Interval = planInfo.Interval,
+                            RunInHoliday = planInfo.RunInHoliday,
+                        };
 
 
                         var dataMap = new JobDataMap();
-                        dataMap.Put("PlanningInfo", item);
+                        dataMap.Put("PlanningInfo", planningInfo);
 
 
 
-                        var jkey = new JobKey(service.GetType().Name, service.ServiceCategoryId.ToString());
-                        q.AddJob(service.GetType(), jkey, a => a.WithDescription(item.PlanName).SetJobData(dataMap).WithIdentity(jkey));
+                        var jkey = new JobKey(service.GetType().Name, item.ToString());
+                        q.AddJob(service.GetType(), jkey, a => a.WithDescription(item.GetDisplayName()).SetJobData(dataMap).WithIdentity(jkey));
                         q.AddTrigger(trigger => trigger
                         .ForJob(jkey)
-                        .WithIdentity("trigger" + service.GetType().Name, "triggerGroup" + item.PlanningInfoId.ToString())
+                        .WithIdentity("trigger" + service.GetType().Name, "triggerGroup" + item.ToString())
                              .WithDailyTimeIntervalSchedule(x => x.OnEveryDay()
-        .StartingDailyAt(TimeOfDay.HourAndMinuteOfDay(item.StartTime.Hours, item.StartTime.Minutes))
-        .EndingDailyAt(TimeOfDay.HourAndMinuteOfDay(item.StopTime?.Hours ?? 23, item.StopTime?.Minutes ?? 0))
-        .WithIntervalInSeconds(item.Interval))
+        .StartingDailyAt(TimeOfDay.HourAndMinuteOfDay(planInfo.StartHour, planInfo.StartMinute))
+        .EndingDailyAt(TimeOfDay.HourAndMinuteOfDay(planInfo.EndHour, planInfo.EndMinute))
+        .WithIntervalInSeconds(planInfo.Interval))
                              );
 
                     }

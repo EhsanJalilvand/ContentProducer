@@ -24,9 +24,11 @@ using TSE.SiteAPI.Application.Common.HttpProvider;
 using EnigmaDataProvider.Domain.Models;
 using System.Globalization;
 using EnigmaDataProvider.Domain.Constans;
+using EnigmaDataProvider.Domain.CustomAttributes;
 
 namespace DataIntegrationProvider.Application.Application.ContextMaps.Contents.Commands
 {
+    [Plan(11, 0, 17, 0, 1, false, true)]
     public class HolidayIR_Command : RecieverCommandAbstraction<HolidayIR>
     {
         private readonly IHolidayIRApi _holidayIRApi;

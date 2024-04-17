@@ -23,13 +23,15 @@ using Marten;
 using TSE.SiteAPI.Application.Common.HttpProvider;
 using EnigmaDataProvider.Domain.Models;
 using EnigmaDataProvider.Domain.Constans;
+using EnigmaDataProvider.Domain.CustomAttributes;
 
 namespace DataIntegrationProvider.Application.Application.ContextMaps.Contents.Commands
 {
-    public class Beytoote_NewsPaper_Command : RecieverCommandAbstraction<TGJU>
+    [Plan(11, 0, 17, 40, 10, true, false)]
+    public class Beytoote_NewsPaper_Command : RecieverCommandAbstraction<Beytoote_NewPaper>
     {
         private readonly ITgjuApi _tgjuApi;
-        public Beytoote_NewsPaper_Command(IDocumentSession _documentSession, ILogger<RecieverCommandAbstraction<TGJU>> logger, ITSETMCSoapProvider iTSETMCSoapProvider, ITgjuApi tgjuApi) : base(_documentSession, logger)
+        public Beytoote_NewsPaper_Command(IDocumentSession _documentSession, ILogger<RecieverCommandAbstraction<Beytoote_NewPaper>> logger, ITSETMCSoapProvider iTSETMCSoapProvider, ITgjuApi tgjuApi) : base(_documentSession, logger)
         {
             _tgjuApi = tgjuApi;
         }
@@ -41,10 +43,10 @@ namespace DataIntegrationProvider.Application.Application.ContextMaps.Contents.C
 
         public override string[] Tags => new string[] { TagNames.NewsPaper };
 
-        protected async override Task<TGJU> GetData(PlanningInfo detail)
+        protected async override Task<Beytoote_NewPaper> GetData(PlanningInfo detail)
         {
-            var result = await _tgjuApi.GetSummary();
-            return result;
+          
+            return null;
         }
 
         protected override void Dispose()

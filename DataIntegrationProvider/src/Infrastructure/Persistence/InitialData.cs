@@ -48,7 +48,7 @@ namespace EnigmaDataProvider.Infrastructure.Persistence
                     _planningInfos.Add(new PlanningInfo()
                     {
                         ID=(int)item,
-                        PlanningInfoId=item,
+                        ServiceCategoryId=item,
                         PlanName=item.GetDisplayName(),
                         StartTime=new TimeSpan(plan.StartHour,plan.StartMinute,0),
                         StopTime=new TimeSpan(plan.EndHour,plan.EndMinute,0),

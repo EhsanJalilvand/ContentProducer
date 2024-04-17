@@ -14,7 +14,7 @@ namespace DataIntegrationProvider.Domain.ConfigEntities
         {
         }
         public int ID { get; set; }
-        public ServiceCategoryId PlanningInfoId { get; set; }
+        public ServiceCategoryId ServiceCategoryId { get; set; }
         public string PlanName { get; set; }
         public bool CanDelete { get; set; }
         public bool RunInHoliday { get; set; }

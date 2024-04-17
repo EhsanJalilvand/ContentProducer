@@ -34,10 +34,10 @@ namespace DataIntegrationProvider.Application.Application.Common.Abstractions
         protected virtual async Task<bool> SaveData(T response, PlanningInfo planningInfo)
         {
             response.CreateTime = DateTime.Now;
-            response.ServiceCategoryName=ServiceCategoryId.GetDisplayName();
-            response.Language=LanguageId.GetDisplayName();
-            response.Category=CategoryId.GetDisplayName();
-            response.Tags=Tags;
+            response.ServiceCategoryName = ServiceCategoryId.GetDisplayName();
+            response.Language = LanguageId.GetDisplayName();
+            response.Category = CategoryId.GetDisplayName();
+            response.Tags = Tags;
             DocumentSession.Store(response);
             await DocumentSession.SaveChangesAsync();
             return true;
@@ -66,11 +66,11 @@ namespace DataIntegrationProvider.Application.Application.Common.Abstractions
 
                 if (plan == null)
                 {
-                    _logger.LogWarning($"PlanningInfo For Id:{plan.PlanningInfoId}  Is Null");
+                    _logger.LogWarning($"PlanningInfo For Id:{plan.ServiceCategoryId}  Is Null");
                     return;
                 }
 
-                _planLog = $"Plan Name: {plan.PlanningInfoId.GetDisplayName()}  ";
+                _planLog = $"Plan Name: {plan.ServiceCategoryId.GetDisplayName()}  ";
                 _logger.LogInformation($"Start Call Api For Recieve Data {_planLog}");
 
 
@@ -78,7 +78,7 @@ namespace DataIntegrationProvider.Application.Application.Common.Abstractions
                 try
                 {
                     allData = await GetData(plan);
-                    if (allData == null )
+                    if (allData == null)
                     {
                         _logger.LogWarning($"Null Data Response in Calling Data {_planLog}");
                         return;
@@ -116,7 +116,7 @@ namespace DataIntegrationProvider.Application.Application.Common.Abstractions
             finally
             {
                 var dtime2 = DateTime.Now;
-                _logger.LogInformation($"ProceeId {plan.PlanningInfoId} Run In {dtime2.Subtract(dtime).TotalSeconds} Sec");
+                _logger.LogInformation($"ProceeId {plan.ServiceCategoryId} Run In {dtime2.Subtract(dtime).TotalSeconds} Sec");
                 await Task.Delay(plan.Interval * 1000);
                 allData = null;
                 Dispose();
@@ -131,7 +131,6 @@ namespace DataIntegrationProvider.Application.Application.Common.Abstractions
             if (serviceInfo == null)
                 return;
             var info = (PlanningInfo)serviceInfo;
-
             await Run(info);
         }
 

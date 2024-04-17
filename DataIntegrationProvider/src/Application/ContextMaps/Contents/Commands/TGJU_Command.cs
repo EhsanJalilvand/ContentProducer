@@ -23,9 +23,11 @@ using Marten;
 using TSE.SiteAPI.Application.Common.HttpProvider;
 using EnigmaDataProvider.Domain.Models;
 using EnigmaDataProvider.Domain.Constans;
+using EnigmaDataProvider.Domain.CustomAttributes;
 
 namespace DataIntegrationProvider.Application.Application.ContextMaps.Contents.Commands
 {
+    [Plan(11, 0, 17, 0, 5, true, false)]
     public class TGJU_Command : RecieverCommandAbstraction<TGJU>
     {
         private readonly ITgjuApi _tgjuApi;

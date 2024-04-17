@@ -28,7 +28,7 @@ namespace DataIntegrationProvider.Infrastructure.Services
         {
             int tryCount = 3;
             List<TModel> dataModels = new List<TModel>();
-            var _serviceInfoLog = $"ServiceInfoCategory: {serviceInfo.PlanningInfoId.GetDisplayName()} ServiceInfoTypeName: {serviceInfo.PlanName}  SerivceInfoDetailId :{serviceInfo.PlanningInfoId}";
+            var _serviceInfoLog = $"ServiceInfoCategory: {serviceInfo.ServiceCategoryId.GetDisplayName()} ServiceInfoTypeName: {serviceInfo.PlanName}  SerivceInfoDetailId :{serviceInfo.ServiceCategoryId}";
             try
             {
                 if (flow == null || !flow.Any())

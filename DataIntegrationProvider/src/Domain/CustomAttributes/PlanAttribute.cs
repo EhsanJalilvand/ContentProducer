@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace EnigmaDataProvider.Domain.CustomAttributes
 {
+    [AttributeUsage(AttributeTargets.Class)]
     public class PlanAttribute:Attribute
     {
         public PlanAttribute(short startHour, short startMinute,short endHour,short endMinute,int interval,bool canDelete,bool runInHoliday)
