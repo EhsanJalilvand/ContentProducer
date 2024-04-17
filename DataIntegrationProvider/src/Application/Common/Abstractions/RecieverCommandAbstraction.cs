@@ -29,7 +29,7 @@ namespace DataIntegrationProvider.Application.Application.Common.Abstractions
         public abstract ServiceCategoryId ServiceCategoryId { get; }
         public abstract LanguageId LanguageId { get; }
         public abstract CategoryId CategoryId { get; }
-        public abstract SubCategoryId SubCategoryId { get; }
+        public abstract string[] Tags { get; }
         protected abstract Task<T> GetData(PlanningInfo serviceInfo);
         protected virtual async Task<bool> SaveData(T response, PlanningInfo planningInfo)
         {
@@ -37,7 +37,7 @@ namespace DataIntegrationProvider.Application.Application.Common.Abstractions
             response.ServiceCategoryName=ServiceCategoryId.GetDisplayName();
             response.Language=LanguageId.GetDisplayName();
             response.Category=CategoryId.GetDisplayName();
-            response.SubCategory=SubCategoryId.GetDisplayName();
+            response.Tags=Tags;
             DocumentSession.Store(response);
             await DocumentSession.SaveChangesAsync();
             return true;

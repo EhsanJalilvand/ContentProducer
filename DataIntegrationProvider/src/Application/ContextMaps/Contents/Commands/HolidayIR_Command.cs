@@ -23,6 +23,7 @@ using Marten;
 using TSE.SiteAPI.Application.Common.HttpProvider;
 using EnigmaDataProvider.Domain.Models;
 using System.Globalization;
+using EnigmaDataProvider.Domain.Constans;
 
 namespace DataIntegrationProvider.Application.Application.ContextMaps.Contents.Commands
 {
@@ -39,7 +40,7 @@ namespace DataIntegrationProvider.Application.Application.ContextMaps.Contents.C
 
         public override CategoryId CategoryId => CategoryId.Calendar;
 
-        public override SubCategoryId SubCategoryId => SubCategoryId.Holiday;
+        public override string[] Tags => new string[] { TagNames.Holiday };
         protected async override Task<HolidayIR> GetData(PlanningInfo detail)
         {
             string key = "HolidayIR";

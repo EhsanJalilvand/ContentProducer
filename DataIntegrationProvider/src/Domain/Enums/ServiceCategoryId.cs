@@ -19,5 +19,8 @@ namespace DataIntegrationProvider.Domain.Enums
         [Display(Name = "BamaIR")]
         [Plan(11, 0, 17, 40, 10, true, false)]
         BamaIR = 3,
+        [Display(Name = "Beytoote")]
+        [Plan(11, 0, 17, 40, 10, true, true)]
+        Beytoote = 4,
     }
 }

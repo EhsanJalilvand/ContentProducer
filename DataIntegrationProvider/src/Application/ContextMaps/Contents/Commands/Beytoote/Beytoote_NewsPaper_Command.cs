@@ -26,20 +26,20 @@ using EnigmaDataProvider.Domain.Constans;
 
 namespace DataIntegrationProvider.Application.Application.ContextMaps.Contents.Commands
 {
-    public class TGJU_Command : RecieverCommandAbstraction<TGJU>
+    public class Beytoote_NewsPaper_Command : RecieverCommandAbstraction<TGJU>
     {
         private readonly ITgjuApi _tgjuApi;
-        public TGJU_Command(IDocumentSession _documentSession, ILogger<RecieverCommandAbstraction<TGJU>> logger, ITSETMCSoapProvider iTSETMCSoapProvider, ITgjuApi tgjuApi) : base(_documentSession, logger)
+        public Beytoote_NewsPaper_Command(IDocumentSession _documentSession, ILogger<RecieverCommandAbstraction<TGJU>> logger, ITSETMCSoapProvider iTSETMCSoapProvider, ITgjuApi tgjuApi) : base(_documentSession, logger)
         {
             _tgjuApi = tgjuApi;
         }
 
-        public override ServiceCategoryId ServiceCategoryId => ServiceCategoryId.TGJU;
+        public override ServiceCategoryId ServiceCategoryId => ServiceCategoryId.Beytoote;
         public override LanguageId LanguageId => LanguageId.Fa;
 
-        public override CategoryId CategoryId => CategoryId.Market;
+        public override CategoryId CategoryId => CategoryId.News;
 
-        public override string[] Tags => new string[] { TagNames.Summary };
+        public override string[] Tags => new string[] { TagNames.NewsPaper };
 
         protected async override Task<TGJU> GetData(PlanningInfo detail)
         {

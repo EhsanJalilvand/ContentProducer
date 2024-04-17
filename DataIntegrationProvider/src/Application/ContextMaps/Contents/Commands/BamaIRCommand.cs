@@ -23,6 +23,8 @@ using Marten;
 using TSE.SiteAPI.Application.Common.HttpProvider;
 using EnigmaDataProvider.Domain.Models;
 using HtmlAgilityPack;
+using EnigmaDataProvider.Domain.Constans;
+
 namespace DataIntegrationProvider.Application.Application.ContextMaps.Contents.Commands
 {
     public class BamaIRCommand : RecieverCommandAbstraction<BamaIR>
@@ -38,7 +40,7 @@ namespace DataIntegrationProvider.Application.Application.ContextMaps.Contents.C
 
         public override CategoryId CategoryId => CategoryId.Market;
 
-        public override SubCategoryId SubCategoryId => SubCategoryId.Car;
+        public override string[] Tags => new string[] {TagNames.Car};
 
   
 
