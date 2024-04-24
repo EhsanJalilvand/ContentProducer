@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Share\src\Domain\Share.Domain.csproj" />
+    <ProjectReference Include="..\..\..\Share\src\Infrastructure\Share.Infrastructure.csproj" />
     <ProjectReference Include="..\Application\DataIntegrationProvider.Application.csproj" />
     <ProjectReference Include="..\Domain\DataIntegrationProvider.Domain.csproj" />
   </ItemGroup>

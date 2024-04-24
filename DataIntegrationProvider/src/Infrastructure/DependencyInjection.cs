@@ -24,6 +24,9 @@ using TSE.SiteAPI.Application.Common.Interfaces;
 using Share.Domain.Extensions;
 using DataIntegrationProvider.Application.Application.ContextMaps.Contents.Commands;
 using System.Reflection;
+using SharedDomainService.Interfaces;
+using SharedInfrastructure.Services;
+using SharedDomain.Configs;
 
 namespace DataIntegrationProvider.Infrastructure
 {
@@ -36,7 +39,8 @@ namespace DataIntegrationProvider.Infrastructure
             services.AddTransient<ICodalRestApi, CodalRestApi>();
             services.AddTransient<ITSETMCRestApi, TSETMCRestApi>();
             services.AddSingleton<ITSETMCSoapProvider, TSETMCSoapProvider>();
-
+            services.AddSingleton<ICrawlClientHandler, CrawlClientHandler>();
+            services.Configure<SocketInfo>(configuration.GetSection("SocketInfo"));
             //services.AddTransient<CodalRestCommand>();
             services.AddTransient<TGJU_Command>();
             services.AddTransient<HolidayIR_Command>();
