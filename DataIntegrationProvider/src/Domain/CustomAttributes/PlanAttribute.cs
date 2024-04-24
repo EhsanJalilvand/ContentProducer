@@ -9,7 +9,7 @@ namespace EnigmaDataProvider.Domain.CustomAttributes
     [AttributeUsage(AttributeTargets.Class)]
     public class PlanAttribute:Attribute
     {
-        public PlanAttribute(short startHour, short startMinute,short endHour,short endMinute,int interval,bool canDelete,bool runInHoliday)
+        public PlanAttribute(short startHour, short startMinute,short endHour,short endMinute,int interval,bool canDelete,bool runInHoliday,bool runOnce)
         {
             StartHour = startHour;
             StartMinute = startMinute;
@@ -18,6 +18,7 @@ namespace EnigmaDataProvider.Domain.CustomAttributes
             Interval=interval;
             CanDelete=canDelete;
             RunInHoliday=runInHoliday;
+            RunOnce=runOnce;
         }
         public short StartHour { get; init; }
         public short StartMinute { get; init; }
@@ -26,6 +27,7 @@ namespace EnigmaDataProvider.Domain.CustomAttributes
         public int Interval { get; init; }
         public bool CanDelete { get; init; }
         public bool RunInHoliday { get; init; }
+        public bool RunOnce { get; set; }
 
     }
 }

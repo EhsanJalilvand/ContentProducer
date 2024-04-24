@@ -18,7 +18,7 @@ namespace DataIntegrationProvider.Domain.ConfigEntities
         public string PlanName { get; set; }
         public bool CanDelete { get; set; }
         public bool RunInHoliday { get; set; }
-
+        public bool RunOnce { get; set; }
         public TimeSpan StartTime { get; set; }
         public TimeSpan? StopTime { get; set; }
         public int Interval { get; set; }

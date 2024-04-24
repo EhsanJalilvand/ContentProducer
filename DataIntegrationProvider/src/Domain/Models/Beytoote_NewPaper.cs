@@ -9,11 +9,11 @@ namespace EnigmaDataProvider.Domain.Models
 {
     public class Beytoote_NewPaper : ModelBase
     {
-    
+        public Beytoote_NewPaper()
+        {
+            Urls = new List<Tuple<string, string>>();
+        }
+        public string Title { get; set; }
+        public List<Tuple<string,string>> Urls { get; set; }
     }
-
-
-
-
-
 }

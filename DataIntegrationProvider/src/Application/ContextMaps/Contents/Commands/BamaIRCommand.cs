@@ -28,7 +28,7 @@ using EnigmaDataProvider.Domain.CustomAttributes;
 
 namespace DataIntegrationProvider.Application.Application.ContextMaps.Contents.Commands
 {
-    [Plan(11, 0, 17, 40, 10, true, false)]
+    [Plan(11, 0, 17, 40, 10, true, false,false)]
     public class BamaIRCommand : RecieverCommandAbstraction<BamaIR>
     {
         private readonly IBamaIRApi _bamaIRApi;

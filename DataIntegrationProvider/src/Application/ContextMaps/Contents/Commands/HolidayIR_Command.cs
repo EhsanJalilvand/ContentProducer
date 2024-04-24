@@ -28,7 +28,7 @@ using EnigmaDataProvider.Domain.CustomAttributes;
 
 namespace DataIntegrationProvider.Application.Application.ContextMaps.Contents.Commands
 {
-    [Plan(11, 0, 17, 0, 1, false, true)]
+    [Plan(11, 0, 17, 0, 1, false, true,false)]
     public class HolidayIR_Command : RecieverCommandAbstraction<HolidayIR>
     {
         private readonly IHolidayIRApi _holidayIRApi;

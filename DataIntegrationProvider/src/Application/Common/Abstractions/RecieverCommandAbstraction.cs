@@ -71,6 +71,15 @@ namespace DataIntegrationProvider.Application.Application.Common.Abstractions
                 }
 
                 _planLog = $"Plan Name: {plan.ServiceCategoryId.GetDisplayName()}  ";
+
+                if (plan.RunOnce)
+                {
+                    var jjj = DocumentSession.Query<T>().ToList();
+                    var result = DocumentSession.Query<T>().ToList().Any(a => a.CreateTime.Year == dtime.Year && a.CreateTime.Month == dtime.Month && a.CreateTime.Day == dtime.Day);
+                    if (result)
+                        return;
+                }
+
                 _logger.LogInformation($"Start Call Api For Recieve Data {_planLog}");
 
 
@@ -94,7 +103,7 @@ namespace DataIntegrationProvider.Application.Application.Common.Abstractions
 
                 try
                 {
-                    if (plan.CanDelete)
+                    if (plan.CanDelete && !plan.RunOnce)
                     {
                         _logger.LogWarning($"Start Delete OldData For Data {_planLog}");
                         await DeleteData(allData, plan);

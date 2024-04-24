@@ -114,6 +114,7 @@ namespace DataIntegrationProvider.Infrastructure
                             CanDelete = planInfo.CanDelete,
                             Interval = planInfo.Interval,
                             RunInHoliday = planInfo.RunInHoliday,
+                            RunOnce = planInfo.RunOnce,
                         };
 
 

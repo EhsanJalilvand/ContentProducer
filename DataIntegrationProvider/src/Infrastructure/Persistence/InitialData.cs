@@ -55,6 +55,7 @@ namespace EnigmaDataProvider.Infrastructure.Persistence
                         CanDelete=plan.CanDelete,
                         Interval=plan.Interval,
                         RunInHoliday=plan.RunInHoliday,
+                        RunOnce=plan.RunOnce,
                     });
                 }
 

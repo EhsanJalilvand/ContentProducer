@@ -30,7 +30,7 @@ using SharedDomain.Enums;
 using HtmlAgilityPack;
 namespace DataIntegrationProvider.Application.Application.ContextMaps.Contents.Commands
 {
-    [Plan(11, 0, 17, 40, 10, true, false)]
+    [Plan(11, 0, 17, 40, 10, true, false,true)]
     public class Beytoote_NewsPaper_Command : RecieverCommandAbstraction<Beytoote_NewPaper>
     {
         private readonly ICrawlClientHandler _crawlClientHandler;
@@ -48,6 +48,7 @@ namespace DataIntegrationProvider.Application.Application.ContextMaps.Contents.C
 
         protected async override Task<Beytoote_NewPaper> GetData(PlanningInfo detail)
         {
+            Beytoote_NewPaper beytoote_NewPaper = new Beytoote_NewPaper();
             string baseAddress = "https://www.beytoote.com/news/newspaper/";
             string address = string.Empty;
             await _crawlClientHandler.SendCommand(new CrawlRequestCommand() { CrawlRequestCommandType = CrawlRequestCommandType.GetAddress }, async (a) =>
@@ -66,19 +67,6 @@ namespace DataIntegrationProvider.Application.Application.ContextMaps.Contents.C
                     {
                         _crawlClientHandler.SendCommand(new CrawlRequestCommand() { CrawlRequestCommandType = CrawlRequestCommandType.WaitForSelector, Script = ".domain-suggest", Interval = 60 }, null).GetAwaiter().GetResult();
                     }
-                    //CrawlClientHandler.SendCommand(new CrawlRequestCommand() { CrawlRequestCommandType = CrawlRequestCommandType.ExecuteScript, Script = @"document.getElementsByClassName('domain-suggest')[0].querySelector('.dk-modal__close').click();" }, null).GetAwaiter().GetResult();
-                    //Task.Delay(500).GetAwaiter().GetResult();
-                    //Logger.LogInformation($"Start Execute Script document.querySelector(.cookie-notice .secondary.button).click();");
-                    //CrawlClientHandler.SendCommand(new CrawlRequestCommand() { CrawlRequestCommandType = CrawlRequestCommandType.ExecuteScript, Script = @"document.querySelector("".cookie-notice .secondary.button"").click();" }, null).GetAwaiter().GetResult();
-                    //Task.Delay(500).GetAwaiter().GetResult();
-                    //Logger.LogInformation($"Start Execute Script document.querySelector('#header__storage > div > div.flymenu__nav-bar > div > ul > li:nth-child(1) > a').click();");
-                    //CrawlClientHandler.SendCommand(new CrawlRequestCommand() { CrawlRequestCommandType = CrawlRequestCommandType.ExecuteScript, Script = @"document.querySelector('#header__storage > div > div.flymenu__nav-bar > div > ul > li:nth-child(1) > a').click();" }, null).GetAwaiter().GetResult();
-                    //Task.Delay(2000).GetAwaiter().GetResult();
-                    //Logger.LogInformation($"Start GetAddress");
-                    //CrawlClientHandler.SendCommand(new CrawlRequestCommand() { CrawlRequestCommandType = CrawlRequestCommandType.GetAddress }, async (a) =>
-                    //{
-                    //    address = a.Address;
-                    //}).GetAwaiter().GetResult();
                 }
 
             });
@@ -99,32 +87,53 @@ namespace DataIntegrationProvider.Application.Application.ContextMaps.Contents.C
                   string hrefValue = aTag.GetAttributeValue("href", string.Empty);
 
                   var todayUrl = $"https://www.beytoote.com{hrefValue}";
-                  _crawlClientHandler.SendCommand(new CrawlRequestCommand() { CrawlRequestCommandType = CrawlRequestCommandType.LoadUrlAsync, Script = todayUrl }, (a) => { }).GetAwaiter().GetResult();
+                  string address = string.Empty;
+                  _crawlClientHandler.SendCommand(new CrawlRequestCommand() { CrawlRequestCommandType = CrawlRequestCommandType.GetAddress }, async (a) =>
+                  {
+                      address = a.Address;
+                      if (string.IsNullOrEmpty(a.Address) || a.Address != todayUrl)
+                      {
+                          _crawlClientHandler.SendCommand(new CrawlRequestCommand() { CrawlRequestCommandType = CrawlRequestCommandType.LoadUrlAsync, Script = todayUrl }, null).GetAwaiter().GetResult();
+                          string currentAddress = string.Empty;
+                          _crawlClientHandler.SendCommand(new CrawlRequestCommand() { CrawlRequestCommandType = CrawlRequestCommandType.GetAddress }, async (ad) =>
+                          {
+                              currentAddress = ad.Address;
+                          }).GetAwaiter().GetResult();
+
+                          if (currentAddress != todayUrl)
+                          {
+                              _crawlClientHandler.SendCommand(new CrawlRequestCommand() { CrawlRequestCommandType = CrawlRequestCommandType.WaitForSelector, Script = ".domain-suggest", Interval = 60 }, null).GetAwaiter().GetResult();
+                          }
+                      }
+
+                  }).GetAwaiter().GetResult();
+
+
+                  //_crawlClientHandler.SendCommand(new CrawlRequestCommand() { CrawlRequestCommandType = CrawlRequestCommandType.LoadUrlAsync, Script = todayUrl }, (a) => { }).GetAwaiter().GetResult();
 
                   _crawlClientHandler.SendCommand(new CrawlRequestCommand() { CrawlRequestCommandType = CrawlRequestCommandType.GetContent }, (a) =>
                   {
+                     
                       var htmlDoc = new HtmlDocument();
                       htmlDoc.LoadHtml(a.Content);
 
-                      var mainSection = htmlDoc.DocumentNode.SelectSingleNode ("//article");
+                      var mainSection = htmlDoc.DocumentNode.SelectSingleNode("//article");
 
                       var h1 = mainSection.SelectSingleNode("//h1/a");
-                      string title = h1.InnerHtml;
+                      beytoote_NewPaper.Title = h1.InnerHtml;
 
                       var imgarticles = mainSection.SelectNodes("//div[@class='imgarticle']");
-                      var allImageUrl = new List<string>();
                       foreach (var item in imgarticles)
                       {
                           var img = item.FirstChild.GetAttributes("src").First().Value;
-                          allImageUrl.Add($"https://www.beytoote.com{img}");
+                          beytoote_NewPaper.Urls.Add(new Tuple<string, string>($"https://www.beytoote.com{img}",string.Empty));
                       }
-                      var myUrls = allImageUrl;
 
                   });
               });
 
 
-            return null;
+            return beytoote_NewPaper;
         }
 
         protected override void Dispose()
